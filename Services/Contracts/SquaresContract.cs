@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Drawing;
 
 namespace Services.Contracts
 {
@@ -6,6 +7,6 @@ namespace Services.Contracts
     {
         public int SquareCount;
 
-        public List<SquarePointsContract> Squares;
+        public List<Point[]> Squares;
     }
 }

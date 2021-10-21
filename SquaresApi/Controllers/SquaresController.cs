@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using System.Collections.Generic;
+using Services;
 
 namespace SquaresApi.Controllers
 {
@@ -11,7 +12,13 @@ namespace SquaresApi.Controllers
         [HttpGet]
         public IEnumerable<string> Get()
         {
-            return new string[] {  };
+            var stringTemp = @"[(-1;1), (1;1), (1;-1), (-1;-1)]";
+
+            var points = new PointConvertService().ConvertStringToPoint(stringTemp);
+
+            var rez = new SquareFindService().GetAllSquares(points);
+
+            return new string[] { rez.Count.ToString() };
         }
 
         [HttpGet("{id}")]

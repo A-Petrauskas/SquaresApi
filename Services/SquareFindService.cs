@@ -5,9 +5,9 @@ namespace Services
 {
     public class SquareFindService
     {
-        public int SquareCount(Point[] input)
+        public List<Point[]> GetAllSquares(Point[] input)
         {
-            int count = 0;
+            var allSquares = new List<Point[]>();
 
             HashSet<Point> set = new HashSet<Point>();
             foreach (var point in input)
@@ -20,22 +20,28 @@ namespace Services
                     if (i == j)
                         continue;
 
-                    Point[] DiagVertex = GetRestPints(input[i], input[j]);
+                    Point[] DiagVertex = GetRestPoints(input[i], input[j]);
                     if (set.Contains(DiagVertex[0]) && set.Contains(DiagVertex[1]))
                     {
-                        count++;
+                        var square = new Point[]
+                        {
+                            input[i], input[j],
+                            DiagVertex[0], DiagVertex[1]
+                        };
+
+                        allSquares.Add(square);
                     }
                 }
             }
-            return count;
 
+            return allSquares;
         }
 
-        private Point[] GetRestPints(Point a, Point c)
+        private Point[] GetRestPoints(Point a, Point c)
         {
             Point[] res = new Point[2];
 
-            int midX = (a.X + c.Y) / 2;
+            int midX = (a.X + c.X) / 2;
             int midY = (a.Y + c.Y) / 2;
 
             int Ax = a.X - midX;
