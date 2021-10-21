@@ -5,6 +5,7 @@ namespace Services
 {
     public class SquareFindService
     {
+        // This method will get all possible squares (points can be reused)
         public List<Point[]> GetAllSquares(Point[] input)
         {
             var allSquares = new List<Point[]>();

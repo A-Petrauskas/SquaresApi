@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using System.Collections.Generic;
 using Services;
+using Services.Contracts;
 
 namespace SquaresApi.Controllers
 {
@@ -10,7 +10,7 @@ namespace SquaresApi.Controllers
     public class SquaresController : ControllerBase
     {
         [HttpGet]
-        public IEnumerable<string> Get()
+        public ActionResult<SquaresContract> Get()
         {
             var stringTemp = @"[(-1;1), (1;1), (1;-1), (-1;-1)]";
 
@@ -18,7 +18,14 @@ namespace SquaresApi.Controllers
 
             var rez = new SquareFindService().GetAllSquares(points);
 
-            return new string[] { rez.Count.ToString() };
+            var response = new SquaresContract()
+            {
+                squareCount = rez.Count,
+
+                squares = rez
+            };
+
+            return response;
         }
 
         [HttpGet("{id}")]

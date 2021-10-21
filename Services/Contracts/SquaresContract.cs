@@ -5,8 +5,8 @@ namespace Services.Contracts
 {
     public class SquaresContract
     {
-        public int SquareCount;
+        public int squareCount { get; set; }
 
-        public List<Point[]> Squares;
+        public List<Point[]> squares { get; set; }
     }
 }
