@@ -3,6 +3,9 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
+using Microsoft.Extensions.Options;
+using Repositories;
+using Repositories.Models;
 
 namespace SquaresApi
 {
@@ -20,6 +23,14 @@ namespace SquaresApi
             services.AddControllers();
 
             services.AddSwaggerGen();
+
+            services.Configure<SquaresDatabaseSettings>(
+        Configuration.GetSection(nameof(SquaresDatabaseSettings)));
+
+            services.AddSingleton<ISquaresDatabaseSettings>(sp =>
+                sp.GetRequiredService<IOptions<SquaresDatabaseSettings>>().Value);
+
+            services.AddSingleton<SquaresRepository>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)

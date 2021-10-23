@@ -1,6 +1,9 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using Repositories;
+using Repositories.Entities;
 using Services;
 using Services.Contracts;
+using System.Collections.Generic;
 
 namespace SquaresApi.Controllers
 {
@@ -9,8 +12,15 @@ namespace SquaresApi.Controllers
     [ApiController]
     public class SquaresController : ControllerBase
     {
+        private readonly SquaresRepository _squaresRepository;
+        public SquaresController(SquaresRepository squaresRepository)
+        {
+            _squaresRepository = squaresRepository;
+        }
+
+
         [HttpGet]
-        public ActionResult<SquaresContract> Get()
+        public ActionResult<List<Squares>> Get()
         {
             var stringTemp = @"[(-1;1), (1;1), (1;-1), (-1;-1)]";
 
@@ -22,10 +32,12 @@ namespace SquaresApi.Controllers
             {
                 squareCount = rez.Count,
 
-                squares = new PointPrettyStringService().ConvertPointToString(rez)
+                squares = new PointPrettyStringService().ConvertPointToString(rez),
+
+                squareUniqueness = false
             };
 
-            return response; //TODO: fix response
+            return _squaresRepository.Get();
         }
 
         [HttpGet("{id}")]
