@@ -14,7 +14,7 @@ namespace SquaresApi.Controllers
         {
             var stringTemp = @"[(-1;1), (1;1), (1;-1), (-1;-1)]";
 
-            var points = new PointConvertService().ConvertStringToPoint(stringTemp);
+            var points = new PointPrettyStringService().ConvertStringToPoint(stringTemp);
 
             var rez = new SquareFindService().GetAllSquares(points);
 
@@ -22,10 +22,10 @@ namespace SquaresApi.Controllers
             {
                 squareCount = rez.Count,
 
-                squares = rez
+                squares = new PointPrettyStringService().ConvertPointToString(rez)
             };
 
-            return response;
+            return response; //TODO: fix response
         }
 
         [HttpGet("{id}")]
