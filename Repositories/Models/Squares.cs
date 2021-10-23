@@ -2,7 +2,7 @@
 using MongoDB.Bson.Serialization.Attributes;
 using System.Collections.Generic;
 
-namespace Repositories.Entities
+namespace Repositories.Models
 {
     public class Squares
     {
@@ -11,12 +11,14 @@ namespace Repositories.Entities
         public string Id { get; set; }
 
         [BsonElement]
-        public List<List<string>> points { get; set; }
-
-        [BsonElement]
         public int squareCount { get; set; }
 
         [BsonElement]
         public bool squareUniqueness { get; set; }
+
+        [BsonElement]
+        public List<List<string>> squares { get; set; }
+
+        //Potentially more properties that should not be returned to user
     }
 }

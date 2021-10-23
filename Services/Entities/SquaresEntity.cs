@@ -1,9 +1,11 @@
 ﻿using System.Collections.Generic;
 
-namespace Services.Contracts
+namespace Services.Entities
 {
-    public class SquaresContract
+    public class SquaresEntity
     {
+        public string Id { get; set; }
+
         public int squareCount { get; set; }
 
         public bool squareUniqueness { get; set; }

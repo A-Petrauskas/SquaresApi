@@ -5,7 +5,7 @@ using System.Text.RegularExpressions;
 
 namespace Services
 {
-    public class PointPrettyStringService
+    public class PointStringService
     {
         public Point[] ConvertStringToPoint(string squareString)
         {

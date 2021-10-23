@@ -1,8 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
-using Repositories;
-using Repositories.Entities;
 using Services;
-using Services.Contracts;
+using Services.Entities;
 using System.Collections.Generic;
 
 namespace SquaresApi.Controllers
@@ -12,52 +10,44 @@ namespace SquaresApi.Controllers
     [ApiController]
     public class SquaresController : ControllerBase
     {
-        private readonly SquaresRepository _squaresRepository;
-        public SquaresController(SquaresRepository squaresRepository)
+        private readonly SquaresService _squaresService;
+        public SquaresController(SquaresService squaresService)
         {
-            _squaresRepository = squaresRepository;
+            _squaresService = squaresService;
         }
 
 
-        [HttpGet]
-        public ActionResult<List<Squares>> Get()
+        [HttpGet("squares")]
+        public ActionResult<List<SquaresEntity>> Get()
         {
-            var stringTemp = @"[(-1;1), (1;1), (1;-1), (-1;-1)]";
+            var allSquares = _squaresService.GetAllSquares();
 
-            var points = new PointPrettyStringService().ConvertStringToPoint(stringTemp);
-
-            var rez = new SquareFindService().GetAllSquares(points);
-
-            var response = new SquaresContract()
-            {
-                squareCount = rez.Count,
-
-                squares = new PointPrettyStringService().ConvertPointToString(rez),
-
-                squareUniqueness = false
-            };
-
-            return _squaresRepository.Get();
+            return allSquares;
         }
 
-        [HttpGet("{id}")]
-        public string Get(int id)
+        [HttpGet("squares/{id}")]
+        public SquaresEntity Get(string id)
         {
-            return "value";
+            var squaresById = _squaresService.GetSquaresById(id);
+
+            return squaresById;
         }
 
-        [HttpPost]
-        public void Post([FromBody] string value)
+        [HttpPost("squares/points/{square-uniq}")]
+        public SquaresEntity Post([FromBody] string points, int squareUniqueness)
+        {
+            var newSquares = _squaresService.CreateSquares(points, squareUniqueness);
+
+            return newSquares;
+        }
+
+        [HttpPut("squares/{id}/points/{points}")]
+        public void Put(string id, string points)
         {
         }
 
-        [HttpPut("{id}")]
-        public void Put(int id, [FromBody] string value)
-        {
-        }
-
-        [HttpDelete("{id}")]
-        public void Delete(int id)
+        [HttpDelete("squares/{id}/points/{points}")]
+        public void Delete(string id, string points)
         {
         }
     }

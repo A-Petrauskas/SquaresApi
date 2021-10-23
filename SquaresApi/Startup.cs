@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
 using Repositories;
 using Repositories.Models;
+using Services;
 
 namespace SquaresApi
 {
@@ -31,6 +32,10 @@ namespace SquaresApi
                 sp.GetRequiredService<IOptions<SquaresDatabaseSettings>>().Value);
 
             services.AddSingleton<SquaresRepository>();
+            services.AddSingleton<SquaresService>();
+            services.AddSingleton<ModelEntityConverter>();
+            services.AddSingleton<PointStringService>();
+            services.AddSingleton<SquareFindService>();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
