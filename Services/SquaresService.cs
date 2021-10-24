@@ -100,21 +100,38 @@ namespace Services
             return squaresEntity;
         }
 
-        public SquaresEntity UpdateSquares(string id, string newPoints)
+        public SquaresEntity AddPoints(string id, string points)
         {
             var squaresModel = _squaresRepository.Get(id);
             var squaresEntity = _modelEntityConverter.ConvertModelToEntity(squaresModel);
+            var pointsStringList = _pointStringService.ConvertStringToListPoints(points);
+            var newPointsString = squaresEntity.points;
+            newPointsString.AddRange(pointsStringList);
 
-            return null;
+            var newSquaresEntity = UpdateSquares(newPointsString, squaresEntity, id);
+
+            return newSquaresEntity;
         }
 
         public SquaresEntity DeletePoints (string id, string points)
         {
             var squaresModel = _squaresRepository.Get(id);
             var squaresEntity = _modelEntityConverter.ConvertModelToEntity(squaresModel);
-            var pointsString = _pointStringService.ConvertStringToListPoints(points);
-            var newPointsString = squaresEntity.points.Except(pointsString).ToList();
+            var pointsStringList = _pointStringService.ConvertStringToListPoints(points);
+            var newPointsString = squaresEntity.points.Except(pointsStringList).ToList();
 
+            var newSquaresEntity = UpdateSquares(newPointsString, squaresEntity, id);
+
+            return newSquaresEntity;
+        }
+
+        public void DeleteById(string id)
+        {
+            _squaresRepository.Remove(id);
+        }
+
+        private SquaresEntity UpdateSquares(List<string> newPointsString, SquaresEntity squaresEntity, string id)
+        {
             if (newPointsString.Count < 4) //doesnt even try to find squares when there is less than 4 points
             {
                 var newSquaresModelEmpty = new Squares()
@@ -147,11 +164,6 @@ namespace Services
             _squaresRepository.Update(id, newSquaresModel);
 
             return _modelEntityConverter.ConvertModelToEntity(newSquaresModel);
-        }
-
-        public void DeleteById(string id)
-        {
-            _squaresRepository.Remove(id);
         }
     }
 }

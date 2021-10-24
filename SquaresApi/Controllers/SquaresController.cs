@@ -41,10 +41,10 @@ namespace SquaresApi.Controllers
             return squaresByPoints;
         }
 
-        [HttpPost("points/{square-uniq}")]
-        public SquaresEntity Post([FromBody] string points, int squareUniqueness)
+        [HttpPost("points/{squareUniq}")]
+        public SquaresEntity Post([FromBody] string points, int squareUniq)
         {
-            var newSquares = _squaresService.CreateSquares(points, squareUniqueness);
+            var newSquares = _squaresService.CreateSquares(points, squareUniq);
 
             return newSquares;
         }
@@ -52,7 +52,7 @@ namespace SquaresApi.Controllers
         [HttpPut("{id}/points/{points}")]
         public SquaresEntity Put(string id, string points)
         {
-            var newSquares = _squaresService.UpdateSquares(id, points);
+            var newSquares = _squaresService.AddPoints(id, points);
 
             return newSquares;
         }
