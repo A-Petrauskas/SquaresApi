@@ -33,6 +33,14 @@ namespace SquaresApi.Controllers
             return squaresById;
         }
 
+        [HttpGet("points/{points}")]
+        public List<SquaresEntity> GetByPoints(string points)
+        {
+            var squaresByPoints = _squaresService.GetSquaresByPoints(points);
+
+            return squaresByPoints;
+        }
+
         [HttpPost("points/{square-uniq}")]
         public SquaresEntity Post([FromBody] string points, int squareUniqueness)
         {

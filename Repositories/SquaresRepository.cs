@@ -22,6 +22,9 @@ namespace Repositories
         public Squares Get(string id) =>
             _squares.Find<Squares>(squares => squares.Id == id).FirstOrDefault();
 
+        public List<Squares> GetByPoints(List<string> points) =>
+           _squares.Find<Squares>(squares => squares.points == points).ToList();
+
         public Squares Create(Squares squares)
         {
             _squares.InsertOne(squares);

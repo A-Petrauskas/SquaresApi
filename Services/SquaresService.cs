@@ -40,6 +40,22 @@ namespace Services
             return squaresEntity;
         }
 
+        public List<SquaresEntity> GetSquaresByPoints(string points)
+        {
+            var pointsList = _pointStringService.ConvertStringToListPoints(points);
+
+            var squaresModels = _squaresRepository.GetByPoints(pointsList);
+
+            var squaresEntities = new List<SquaresEntity>();
+
+            foreach (var squaresModel in squaresModels)
+            {
+                squaresEntities.Add(_modelEntityConverter.ConvertModelToEntity(squaresModel));
+            }
+
+            return squaresEntities;
+        }
+
         public SquaresEntity CreateSquares(string squaresInPoints, int squareUniq)
         {
             var points = _pointStringService.ConvertStringToPoint(squaresInPoints);
