@@ -50,8 +50,11 @@ namespace SquaresApi.Controllers
         }
 
         [HttpPut("{id}/points/{points}")]
-        public void Put(string id, string points)
+        public SquaresEntity Put(string id, string points)
         {
+            var newSquares = _squaresService.UpdateSquares(id, points);
+
+            return newSquares;
         }
 
         [HttpDelete("{id}/points/{points}")]

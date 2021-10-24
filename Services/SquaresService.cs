@@ -58,12 +58,32 @@ namespace Services
 
         public SquaresEntity CreateSquares(string squaresInPoints, int squareUniq)
         {
-            var points = _pointStringService.ConvertStringToPoint(squaresInPoints);
-            var squaresFound = _squareFindService.GetAllSquares(points);
             var squareUniqueBool = false;
 
             if (squareUniq == 1)
                 squareUniqueBool = true;
+
+            var points = _pointStringService.ConvertStringToPoint(squaresInPoints);
+
+            if (points.Length < 4) //doesnt even try to find squares when there is less than 4 points
+            {
+                var newSquaresModelEmpty = new Squares()
+                {
+                    squareCount = 0,
+                    squareUniqueness = squareUniqueBool,
+                    points = _pointStringService.ConvertStringToListPoints(squaresInPoints),
+                    squares = new List<List<string>>()
+                };
+
+                _squaresRepository.Create(newSquaresModelEmpty);
+
+                var squaresEntityEmpty = _modelEntityConverter.ConvertModelToEntity(newSquaresModelEmpty);
+
+                return squaresEntityEmpty;
+            }
+
+
+            var squaresFound = _squareFindService.GetAllSquares(points);
 
             var newSquares = new Squares()
             {
@@ -78,6 +98,14 @@ namespace Services
             var squaresEntity = _modelEntityConverter.ConvertModelToEntity(newSquares);
 
             return squaresEntity;
+        }
+
+        public SquaresEntity UpdateSquares(string id, string newPoints)
+        {
+            var squaresModel = _squaresRepository.Get(id);
+            var squaresEntity = _modelEntityConverter.ConvertModelToEntity(squaresModel);
+
+            return null;
         }
 
         public SquaresEntity DeletePoint (string id, string points)
