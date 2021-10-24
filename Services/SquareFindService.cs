@@ -1,12 +1,13 @@
 ﻿using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 
 namespace Services
 {
     public class SquareFindService
     {
         // This method will get all possible squares (points can be reused)
-        public List<Point[]> GetAllSquares(Point[] input)
+        public List<Point[]> GetAllSquares(Point[] input, int squareUniq)
         {
             var allSquares = new List<Point[]>();
 
@@ -31,6 +32,17 @@ namespace Services
                         };
 
                         allSquares.Add(square);
+
+                        if (squareUniq == 1)
+                        {
+                            var pointList = input.ToList();
+                            pointList.Remove(input[i]);
+                            pointList.Remove(input[j]);
+                            pointList.Remove(DiagVertex[0]);
+                            pointList.Remove(DiagVertex[1]);
+
+                            input = pointList.ToArray();
+                        }
                     }
                 }
             }

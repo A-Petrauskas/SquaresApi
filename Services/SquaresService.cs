@@ -83,7 +83,7 @@ namespace Services
             }
 
 
-            var squaresFound = _squareFindService.GetAllSquares(points);
+            var squaresFound = _squareFindService.GetAllSquares(points, squareUniq);
 
             var newSquares = new Squares()
             {
@@ -149,7 +149,12 @@ namespace Services
             }
 
             var newPoints = _pointStringService.ConvertStringToPoint(string.Join(",", newPointsString));
-            var newSquares = _squareFindService.GetAllSquares(newPoints);
+            var squareUniq = 0;
+            if (squaresEntity.squareUniqueness)
+            {
+                squareUniq = 1;
+            }
+            var newSquares = _squareFindService.GetAllSquares(newPoints, squareUniq);
             //Check uniqueness
 
             var newSquaresModel = new Squares()
