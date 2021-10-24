@@ -2,6 +2,7 @@
 using Repositories.Models;
 using Services.Entities;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace Services
 {
@@ -39,9 +40,9 @@ namespace Services
             return squaresEntity;
         }
 
-        public SquaresEntity CreateSquares(string squares, int squareUniq)
+        public SquaresEntity CreateSquares(string squaresInPoints, int squareUniq)
         {
-            var points = _pointStringService.ConvertStringToPoint(squares);
+            var points = _pointStringService.ConvertStringToPoint(squaresInPoints);
             var squaresFound = _squareFindService.GetAllSquares(points);
             var squareUniqueBool = false;
 
@@ -52,6 +53,7 @@ namespace Services
             {
                 squareCount = squaresFound.Count,
                 squareUniqueness = squareUniqueBool,
+                points = _pointStringService.ConvertStringToListPoints(squaresInPoints),
                 squares = _pointStringService.ConvertPointToString(squaresFound)
             };
 
@@ -60,6 +62,47 @@ namespace Services
             var squaresEntity = _modelEntityConverter.ConvertModelToEntity(newSquares);
 
             return squaresEntity;
+        }
+
+        public SquaresEntity DeletePoint (string id, string points)
+        {
+            var squaresModel = _squaresRepository.Get(id);
+            var squaresEntity = _modelEntityConverter.ConvertModelToEntity(squaresModel);
+            var pointsString = _pointStringService.ConvertStringToListPoints(points);
+            var newPointsString = squaresEntity.points.Except(pointsString).ToList();
+
+            if (newPointsString.Count < 4) //doesnt even try to find squares when there is less than 4 points
+            {
+                var newSquaresModelEmpty = new Squares()
+                {
+                    Id = squaresEntity.Id,
+                    squareCount = 0,
+                    squareUniqueness = squaresEntity.squareUniqueness,
+                    points = newPointsString,
+                    squares = new List<List<string>>()
+                };
+
+                _squaresRepository.Update(id, newSquaresModelEmpty);
+
+                return _modelEntityConverter.ConvertModelToEntity(newSquaresModelEmpty);
+            }
+
+            var newPoints = _pointStringService.ConvertStringToPoint(string.Join(",", newPointsString));
+            var newSquares = _squareFindService.GetAllSquares(newPoints);
+            //Check uniqueness
+
+            var newSquaresModel = new Squares()
+            {
+                Id = squaresEntity.Id,
+                squareCount = newSquares.Count,
+                squareUniqueness = squaresEntity.squareUniqueness,
+                points = newPointsString,
+                squares = _pointStringService.ConvertPointToString(newSquares)
+            };
+
+            _squaresRepository.Update(id, newSquaresModel);
+
+            return _modelEntityConverter.ConvertModelToEntity(newSquaresModel);
         }
     }
 }

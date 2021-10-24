@@ -18,7 +18,8 @@ namespace Services
                     squareCount = square.squareCount,
                     squares = square.squares,
                     squareUniqueness = square.squareUniqueness,
-                    Id = square.Id
+                    Id = square.Id,
+                    points = square.points
                 };
 
                 allSquaresEntities.Add(squareEntity);
@@ -34,7 +35,8 @@ namespace Services
                 squareCount = squares.squareCount,
                 squares = squares.squares,
                 squareUniqueness = squares.squareUniqueness,
-                Id = squares.Id
+                Id = squares.Id,
+                points = squares.points
             };
 
             return squareEntity;

@@ -28,11 +28,8 @@ namespace Repositories
             return squares;
         }
 
-        public void Update(string id, Squares bookIn) =>
-            _squares.ReplaceOne(squares => squares.Id == id, bookIn);
-
-        public void Remove(Squares bookIn) =>
-            _squares.DeleteOne(squares => squares.Id == bookIn.Id);
+        public void Update(string id, Squares squaresIn) =>
+            _squares.ReplaceOne(squares => squares.Id == id, squaresIn);
 
         public void Remove(string id) =>
             _squares.DeleteOne(squares => squares.Id == id);

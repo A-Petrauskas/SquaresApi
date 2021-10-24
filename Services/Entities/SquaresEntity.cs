@@ -10,6 +10,8 @@ namespace Services.Entities
 
         public bool squareUniqueness { get; set; }
 
+        public List<string> points { get; set; }
+
         public List<List<string>> squares { get; set; }
     }
 }

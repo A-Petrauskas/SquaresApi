@@ -47,8 +47,11 @@ namespace SquaresApi.Controllers
         }
 
         [HttpDelete("{id}/points/{points}")]
-        public void Delete(string id, string points)
+        public SquaresEntity Delete(string id, string points)
         {
+            var newSquares = _squaresService.DeletePoint(id, points);
+
+            return newSquares;
         }
     }
 }

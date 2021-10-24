@@ -17,6 +17,9 @@ namespace Repositories.Models
         public bool squareUniqueness { get; set; }
 
         [BsonElement]
+        public List<string> points { get; set; }
+
+        [BsonElement]
         public List<List<string>> squares { get; set; }
 
         //Potentially more properties that should not be returned to user

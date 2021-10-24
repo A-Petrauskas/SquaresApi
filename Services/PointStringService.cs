@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Drawing;
+using System.Linq;
 using System.Text.RegularExpressions;
 
 namespace Services
@@ -19,8 +20,8 @@ namespace Services
             {
                 var point = new Point()
                 {
-                    X = Int32.Parse(pointString.Split(";")[0]),
-                    Y = Int32.Parse(pointString.Split(";")[1])
+                    X = Int32.Parse(pointString.Replace(" ", "").Split(";")[0]),
+                    Y = Int32.Parse(pointString.Replace(" ", "").Split(";")[1])
                 };
 
                 allPoints.Add(point);
@@ -47,6 +48,15 @@ namespace Services
             }
 
             return allSquares;
+        }
+
+        public List<string> ConvertStringToListPoints (string points)
+        {
+            var regex = new Regex(@"[[\]]");
+
+            var allPoints = regex.Replace(points.Replace(" ", ""), "").Split(",");
+
+            return allPoints.ToList();
         }
     }
 }
