@@ -113,7 +113,7 @@ namespace Services
             return newSquaresEntity;
         }
 
-        public SquaresEntity DeletePoints (string id, string points)
+        public SquaresEntity DeletePoints(string id, string points)
         {
             var squaresModel = _squaresRepository.Get(id);
             var squaresEntity = _modelEntityConverter.ConvertModelToEntity(squaresModel);

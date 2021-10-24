@@ -6,7 +6,7 @@ namespace Repositories
 {
     public class SquaresRepository
     {
-         private readonly IMongoCollection<Squares> _squares;
+        private readonly IMongoCollection<Squares> _squares;
 
         public SquaresRepository(ISquaresDatabaseSettings settings)
         {

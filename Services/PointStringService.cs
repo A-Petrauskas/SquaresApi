@@ -50,7 +50,7 @@ namespace Services
             return allSquares;
         }
 
-        public List<string> ConvertStringToListPoints (string points)
+        public List<string> ConvertStringToListPoints(string points)
         {
             var regex = new Regex(@"[[\]]");
 

@@ -24,11 +24,14 @@ namespace SquaresApi
         {
             services.AddControllers();
 
-            services.AddSwaggerGen(c => 
+            services.AddSwaggerGen(c =>
             {
                 var swaggerSection = Configuration.GetSection("Swagger");
-                c.SwaggerDoc("v1", new OpenApiInfo { Title = swaggerSection.GetValue<string>("Title"),
-                    Description = swaggerSection.GetValue<string>("Description")});
+                c.SwaggerDoc("v1", new OpenApiInfo
+                {
+                    Title = swaggerSection.GetValue<string>("Title"),
+                    Description = swaggerSection.GetValue<string>("Description")
+                });
             });
 
             services.Configure<SquaresDatabaseSettings>(
