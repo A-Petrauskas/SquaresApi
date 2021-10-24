@@ -4,6 +4,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Options;
+using Microsoft.OpenApi.Models;
 using Repositories;
 using Repositories.Models;
 using Services;
@@ -23,7 +24,12 @@ namespace SquaresApi
         {
             services.AddControllers();
 
-            services.AddSwaggerGen();
+            services.AddSwaggerGen(c => 
+            {
+                var swaggerSection = Configuration.GetSection("Swagger");
+                c.SwaggerDoc("v1", new OpenApiInfo { Title = swaggerSection.GetValue<string>("Title"),
+                    Description = swaggerSection.GetValue<string>("Description")});
+            });
 
             services.Configure<SquaresDatabaseSettings>(
         Configuration.GetSection(nameof(SquaresDatabaseSettings)));

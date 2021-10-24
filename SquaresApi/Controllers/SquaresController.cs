@@ -5,7 +5,7 @@ using System.Collections.Generic;
 
 namespace SquaresApi.Controllers
 {
-    [Route("[controller]")]
+    [Route("squares")]
     [Produces("application/json")]
     [ApiController]
     public class SquaresController : ControllerBase
@@ -17,7 +17,7 @@ namespace SquaresApi.Controllers
         }
 
 
-        [HttpGet("squares")]
+        [HttpGet]
         public ActionResult<List<SquaresEntity>> Get()
         {
             var allSquares = _squaresService.GetAllSquares();
@@ -25,7 +25,7 @@ namespace SquaresApi.Controllers
             return allSquares;
         }
 
-        [HttpGet("squares/{id}")]
+        [HttpGet("{id}")]
         public SquaresEntity Get(string id)
         {
             var squaresById = _squaresService.GetSquaresById(id);
@@ -33,7 +33,7 @@ namespace SquaresApi.Controllers
             return squaresById;
         }
 
-        [HttpPost("squares/points/{square-uniq}")]
+        [HttpPost("points/{square-uniq}")]
         public SquaresEntity Post([FromBody] string points, int squareUniqueness)
         {
             var newSquares = _squaresService.CreateSquares(points, squareUniqueness);
@@ -41,12 +41,12 @@ namespace SquaresApi.Controllers
             return newSquares;
         }
 
-        [HttpPut("squares/{id}/points/{points}")]
+        [HttpPut("{id}/points/{points}")]
         public void Put(string id, string points)
         {
         }
 
-        [HttpDelete("squares/{id}/points/{points}")]
+        [HttpDelete("{id}/points/{points}")]
         public void Delete(string id, string points)
         {
         }
